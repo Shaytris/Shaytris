@@ -1,0 +1,145 @@
+# Block spawning
+when I receive play
+[
+delete all of next-blocks
+repeat 3
+[
+add pick random 1 to 7 to next-blocks
+]
+hide
+erase all
+]
+
+# Project starting
+when I receive start
+[
+set hold-wait to false
+set wait to 0
+set reset? to false
+set t to false
+set tbottom to false
+set tright false
+set tleft false
+set harddrop false
+set tick 0
+set gameover false
+set is rendering to false
+reset timer
+reset wait
+brodcast newblock and wait
+repeat gameover = true
+[
+if harddrop = false
+brodcast detect
+controls
+brodcast detect
+
+if tbottom = false
+if timer - wait > 0.5
+change y by -20
+reset wait
+
+if reset? = false
+set reset? to true
+reset wait
+
+if timer - wait > 4 or harddrop = true
+set is rendering to true
+set reset? to false
+brodcast hideghost
+hide
+set holdwait tp false
+set harddrop to false
+brodcast render and wait
+brodcast new block
+brodcast update ghost
+set is rendering? to false
+]
+]
+change tick by 1
+hide
+brodcast hideghost
+stop all sounds
+start sound game-over.wav
+
+# define resetwait
+set wait to timer
+brodcast update timer
+
+# shuffle
+
+when I receive newblocks
+switch costume to item 1 of nextblock
+delete 1 of nextblock
+add pick random 1 to 7 to next block
+go to x 10 y 170
+point in direction 90
+set size to 100%
+set tbottom to false
+set tright to false
+set tleft to false
+erase all
+brodcast draw and wait
+show
+updateblock
+brodcast update ghost
+gameover?
+resetwait
+
+# detect
+updateblock
+touchingbottom?
+touching sides?
+
+# Define controls
+if left arrow pressed? and tleft = false
+change x by -20
+brodcast updateghost
+if not move = left
+wait 0.125
+set movewait to left
+else
+wait 0.05
+if tbottom = true
+resetwait
+else
+if key right arrow pressed? and tright = false
+change x  by 20
+brodcast updateghost
+if not movewait = right
+wait 0.125
+set movewait to right
+else
+set move wait ___
+if down arrow pressed? and  tbottom = flase
+change y by -20
+if tbottom = false then
+resetwait
+movement pressed
+shiftpressed? = true
+if hodlwait = false
+set holdwait to true
+if hold = _____ then
+set hold to costume number
+brodcast newblock and wait
+else
+set temp to hold
+set hold to costume number
+switch costume to temp
+go tp x 10 y 150
+point in dierection 90
+show
+set size 100%
+set all to defualt
+erase all
+brodcast draw and wait 
+update blocks
+brodcast updateghost
+wait 0.05
+
+# Movement any
+set shiftpressed? to key any pressed and all pressed
+
+# when up
+if gameo ver? = false
+if not costume number
