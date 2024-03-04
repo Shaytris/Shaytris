@@ -143,5 +143,73 @@ wait 0.05
 set shiftpressed? to key any pressed and all pressed
 
 # when up
-if gameo ver? = false
-if not costume number
+if game ver? = false
+if not costume number = 7 and harddrop = false
+rotate
+updatelocations
+wait 0.05 seconds
+brodcast updateghost
+if reset? = true
+reset wait
+
+define rotate
+updatelocations
+set index to 1
+delete all of rotatex
+delete all of rotatey
+repeat length of curentratiox
+add item index of curentratiox + item last of curentx to rotatex
+add item index of curentratioy *-1 item last of curenty to rotatey
+change index by 1
+add item last of curentx to rotatex
+add ietm last of curenty to rotatey
+touching?
+if t = true
+if direction + 90 = 180 or direction + 90 = 0
+set longest to y
+else
+set longest to x
+if longest = x
+set mean to 0
+set index to 1
+set mean to mean / length of rotatex
+if item tindex of rotatex < mean
+set movedir to 1
+set movedir -1
+set movedir to 0
+repeat until t = false or movedir > 2
+set index 1
+if longest = x
+repeat lenghth of rotatex
+replace item index of rotatex with item of rotatex + move dir
+change index to 1
+else
+repeat length of rotatey
+replace item index of rotatex with item index of rotatex + moredir
+change index by 1
+change mean by 1
+change movedir by 1
+touching?
+if t = false then
+turn 90 der
+if longest = x movedis * 20 * movedir
+else
+change y by movedis * 20
+else
+set y by move dis * 20
+else
+turn 90 deg
+
+define updateloc
+replace item last of curentx with  xpos + 90 / 20 + 1
+replace item last of curenty with  ypos + 170 / 20 + 1
+set index to 1
+repeat length of curentx - 1
+replace iteem index of curentratiox with item coustume number - 1 * 3 + index - 1 + 1 of block x
+replace iteem index of curentratiox with item coustume number - 1 * 3 + index - 1 + 1 of block y
+if dir = 180 then
+set temp to item index of curentratiox
+replace item index of curentratiox with index of curentratioy * -1
+replace item index of curentratiox with index of curentratioy with temp * 1
+if dir = -90 then
+replace item of curentratiox
