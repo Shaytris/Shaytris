@@ -1,0 +1,130 @@
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background-image: url('https://i.imgur.com/EjKl5Z0.jpeg'); /* Set your background image path */
+    background-size: cover; /* Stretch the background image to cover the entire viewport */
+    background-position: center; /* Center the background image */
+  }
+
+  .top-bar, .bottom-bar {
+    height: 70px; /* Adjust height as needed */
+    background-color: rgba(0, 0, 0, 0.397); /* Adjust transparency as needed */
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+  .top-bar {
+    top: 0;
+  }
+
+  .bottom-bar {
+    bottom: 0;
+  }
+
+  .container {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Define the spinning animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Define the moving animation */
+  @keyframes moveLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-200px); } /* Move 200px to the left */
+  }
+
+  /* Apply the animation to the image */
+  .spinning {
+    animation: spin 1s infinite linear;
+  }
+
+  .moving {
+    animation: moveLeft 0.5s forwards;
+  }
+
+  .spinning:hover {
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+
+  /* Box styling */
+  .box {
+    width: 300px; /* Adjust width as needed */
+    height: 100px;
+    background-color: #444444;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px; /* Padding for the text */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 0;
+    transition: transform 0.3s ease;
+    margin-left: 750px; /* Adjust margin-left to move the boxes to the left */
+    font-family: 'Lexend', sans-serif; /* Set font to Lexend */
+    color: white; /* Set font color to white */
+  }
+
+  .box img {
+    height: 80px; /* Adjust height as needed */
+    margin-right: 10px; /* Spacing between image and text */
+    margin-left: -90px; /* Move the image to the left of the box */
+    z-index: 1;
+  }
+
+  /* Add 3D effect on hover */
+  .box:before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+
+  .box:hover:before {
+    transform: scaleX(1.05) scaleY(1.2);
+  }
+
+  /* Make boxes follow mouse cursor */
+  .box:hover {
+    transform: translateY(-10px) scale(1.1);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Add shadow for depth */
+  .box:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Black overlay */
+  .overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px; /* Adjust width of the overlay */
+    height: 200px; /* Adjust height of the overlay */
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust transparency as needed */
+    z-index: 2;
+    display: none; /* Initially hidden */
+    transform: translate(-50%, -50%);
+  }
