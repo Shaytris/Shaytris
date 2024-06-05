@@ -98,9 +98,9 @@ And there you go you have built Shaytris Nexus on your computer!
 
 Helping build Shaytris is very helpful and we thank all developers who help us!
 
-# Shaytris Nexus Nightly
+# Shaytris Nexus Blueprint
 
-This build of Nexus is for contributors and developers and is not meant for normal users please use the normal builds.
+This build of Nexus is mainly made for contributors and people who just want features early.
 
 | Builds
 | ------ |
