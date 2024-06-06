@@ -5,7 +5,7 @@
 
 # What is this project?
 
-This is a rewrite of the Tetris client [Shaytris](https://shaytris.github.io) that aims to imporve the project and make it better in general.
+This is a rewrite of the Tetris client [Shaytris](https://shaytris.lol) that aims to imporve the project and make it better in general.
 
 # Client Download
 
