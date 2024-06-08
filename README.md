@@ -109,6 +109,8 @@ This build of Nexus is mainly made for contributors and people who just want fea
 |   [Linux](https://shaytris.github.io/)
 [Android (9 and up)](https://shaytris.github.io/)
 [Web build](https://shaytris.github.io/app/nightly)
+[Ios (64 bit)](https://shaytris.github.io/app/nightly)
+[Ios (34 bit)](https://shaytris.github.io/app/nightly)
 
 
 # Credits
