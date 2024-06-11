@@ -140,4 +140,4 @@ jin - Translated to Spanish
 None yet
 </details>
 
-And All suporters we thank you so much for funding us so we can continue to do what we love! 💜
+
