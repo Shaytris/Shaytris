@@ -4,32 +4,27 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Canvas element not found!");
         return;
     }
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-        console.error("Canvas 2D context not found!");
-        return;
-    }
-
+    const ctx = canvas.getContext('2d')!;
     const cols = 10;
     const rows = 20;
     const cellSize = canvas.width / cols;
-    const tetrominoColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500'];
+    const tetrominoColors = ['#00FFFF', '#FFFF00', '#00FF00', '#FF0000', '#FFA500', '#800080', '#00008B'];
+    const tetrominoShapes: number[][][] = [
+        [[1, 1, 1, 1]], // I (cyan)
+        [[1, 1, 1], [0, 1, 0]], // T (yellow)
+        [[1, 1, 0], [0, 1, 1]], // S (red)
+        [[0, 1, 1], [1, 1, 0]], // Z (green)
+        [[1, 1, 1], [1, 0, 0]], // L (orange)
+        [[1, 1, 1], [0, 0, 1]], // J (dark blue)
+        [[1, 1], [1, 1]] // O (purple)
+    ];
     let grid: number[][] = Array.from({ length: rows }, () => Array(cols).fill(0));
-    let currentTetromino: Tetromino;
+    let currentTetromino: { shape: number[][]; color: string; x: number; y: number } | undefined;
     let lastTime = 0;
     let dropCounter = 0;
     let dropInterval = 1000;
 
-    const particles: Particle[] = [];
-
-    type Tetromino = {
-        shape: number[][];
-        color: string;
-        x: number;
-        y: number;
-    };
-
-    type Particle = {
+    const particles: {
         x: number;
         y: number;
         color: string;
@@ -37,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
         dx: number;
         dy: number;
         life: number;
-    };
+    }[] = [];
 
     function drawGrid() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -54,11 +49,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         }
-        drawTetromino(currentTetromino); // Draw current Tetromino
+        if (currentTetromino) {
+            drawTetromino(currentTetromino);
+        }
         drawParticles();
     }
 
-    function drawTetromino(tetromino: Tetromino) {
+    function drawTetromino(tetromino: { shape: number[][]; color: string; x: number; y: number }) {
         tetromino.shape.forEach((row, i) => {
             row.forEach((cell, j) => {
                 if (cell !== 0) {
@@ -71,26 +68,19 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function getRandomTetromino(): Tetromino {
-        const tetrominoes = [
-            [[1, 1, 1, 1]], // I
-            [[1, 1, 1], [0, 1, 0]], // T
-            [[1, 1, 1], [1, 0, 0]], // L
-            [[1, 1, 1], [0, 0, 1]], // J
-            [[1, 1], [1, 1]], // O
-            [[1, 1, 0], [0, 1, 1]], // Z
-            [[0, 1, 1], [1, 1, 0]]  // S
-        ];
-        const shape = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+    function getRandomTetromino() {
+        const index = Math.floor(Math.random() * tetrominoShapes.length);
+        const shape = tetrominoShapes[index];
+        const color = tetrominoColors[index];
         return {
             shape: shape,
-            color: tetrominoColors[Math.floor(Math.random() * tetrominoColors.length)],
+            color: color,
             x: Math.floor(cols / 2) - Math.floor(shape[0].length / 2),
             y: 0
         };
     }
 
-    function checkCollision(tetromino: Tetromino): boolean {
+    function checkCollision(tetromino: { shape: number[][]; color: string; x: number; y: number }) {
         return tetromino.shape.some((row, i) => {
             return row.some((cell, j) => {
                 return cell !== 0 && (tetromino.y + i >= rows || tetromino.x + j < 0 || tetromino.x + j >= cols || grid[tetromino.y + i][tetromino.x + j] !== 0);
@@ -98,18 +88,18 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function mergeTetromino(tetromino: Tetromino) {
+    function mergeTetromino(tetromino: { shape: number[][]; color: string; x: number; y: number }) {
         tetromino.shape.forEach((row, i) => {
             row.forEach((cell, j) => {
                 if (cell !== 0) {
                     grid[tetromino.y + i][tetromino.x + j] = tetrominoColors.indexOf(tetromino.color) + 1;
-                    createParticles(tetromino.x + j, tetromino.y + i, tetromino.color);
+                    createParticles((tetromino.x + j) * cellSize + cellSize / 2, (tetromino.y + i) * cellSize + cellSize / 2, tetromino.color);
                 }
             });
         });
     }
 
-    function clearRows(): number {
+    function clearRows() {
         let rowsCleared = 0;
         for (let row = rows - 1; row >= 0; row--) {
             if (grid[row].every(cell => cell !== 0)) {
@@ -124,8 +114,8 @@ document.addEventListener("DOMContentLoaded", function() {
     function createParticles(x: number, y: number, color: string) {
         for (let i = 0; i < 10; i++) {
             particles.push({
-                x: x * cellSize + cellSize / 2,
-                y: y * cellSize + cellSize / 2,
+                x: x,
+                y: y,
                 color: color,
                 radius: Math.random() * 2 + 1,
                 dx: (Math.random() - 0.5) * 2,
@@ -151,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function update(time = 0) {
+    function update(time: number = 0) {
         const deltaTime = time - lastTime;
         lastTime = time;
 
@@ -166,42 +156,50 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function dropTetromino() {
-        currentTetromino.y++;
-        if (checkCollision(currentTetromino)) {
-            currentTetromino.y--;
-            mergeTetromino(currentTetromino);
-            const rowsCleared = clearRows();
-            if (rowsCleared > 0) console.log(`${rowsCleared} rows cleared!`);
-            currentTetromino = getRandomTetromino();
+        if (currentTetromino) {
+            currentTetromino.y++;
             if (checkCollision(currentTetromino)) {
-                console.log('Game over!');
-                return;
+                currentTetromino.y--;
+                mergeTetromino(currentTetromino);
+                const rowsCleared = clearRows();
+                if (rowsCleared > 0) console.log(`${rowsCleared} rows cleared!`);
+                currentTetromino = getRandomTetromino();
+                if (checkCollision(currentTetromino)) {
+                    console.log('Game over!');
+                    return;
+                }
             }
         }
     }
 
     function moveTetrominoLeft() {
-        currentTetromino.x--;
-        if (checkCollision(currentTetromino)) currentTetromino.x++;
+        if (currentTetromino) {
+            currentTetromino.x--;
+            if (checkCollision(currentTetromino)) currentTetromino.x++;
+        }
     }
 
     function moveTetrominoRight() {
-        currentTetromino.x++;
-        if (checkCollision(currentTetromino)) currentTetromino.x--;
+        if (currentTetromino) {
+            currentTetromino.x++;
+            if (checkCollision(currentTetromino)) currentTetromino.x--;
+        }
     }
 
     function rotateTetromino() {
-        const originalShape = currentTetromino.shape;
-        const rotatedShape: number[][] = [];
-        for (let i = 0; i < originalShape[0].length; i++) {
-            let newRow: number[] = [];
-            for (let j = originalShape.length - 1; j >= 0; j--) {
-                newRow.push(originalShape[j][i]);
+        if (currentTetromino) {
+            const originalShape = currentTetromino.shape;
+            const rotatedShape: number[][] = [];
+            for (let i = 0; i < originalShape[0].length; i++) {
+                let newRow: number[] = [];
+                for (let j = originalShape.length - 1; j >= 0; j--) {
+                    newRow.push(originalShape[j][i]);
+                }
+                rotatedShape.push(newRow);
             }
-            rotatedShape.push(newRow);
+            currentTetromino.shape = rotatedShape;
+            if (checkCollision(currentTetromino)) currentTetromino.shape = originalShape;
         }
-        currentTetromino.shape = rotatedShape;
-        if (checkCollision(currentTetromino)) currentTetromino.shape = originalShape;
     }
 
     function startGame() {
