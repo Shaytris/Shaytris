@@ -5,12 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shaytris</title>
     <link rel="stylesheet" href="ui.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
     <div class="top-bar"></div>
     <div class="bottom-bar"></div>
     <div class="background"></div>
-    <img src="https://i.imgur.com/Z0YmhNO.png" alt="Centered Image" class="center-image">
+    <img src="https://polar.vanished.lol/shaytris-logo.svg" alt="Centered Image" class="center-image" id="logo">
+    
+    <div class="box-container hidden" id="boxContainer">
+        <div class="box">
+            <span class="material-icons icon">play_arrow</span>
+            <div class="box-content">
+                <h2 class="box-header">Play</h2>
+                <p class="box-paragraph">Let's get right into it!</p>
+            </div>
+        </div>
+        <div class="box">
+            <span class="material-icons icon">construction</span>
+            <div class="box-content">
+                <h2 class="box-header">Editor</h2>
+                <p class="box-paragraph">Create amazing maps!</p>
+            </div>
+        </div>
+        <div class="box">
+            <span class="material-icons icon">settings</span>
+            <div class="box-content">
+                <h2 class="box-header">Settings</h2>
+                <p class="box-paragraph">Chose and set your options!</p>
+            </div>
+        </div>
+        <div class="box">
+            <span class="material-icons icon">power_settings_new</span>
+            <div class="box-content">
+                <h2 class="box-header">Exit</h2>
+                <p class="box-paragraph">Leave the app</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="new-boxes hidden" id="newBoxes">
+        <div class="new-box">
+            <span class="material-icons icon">timer</span>
+            <div class="new-box-content">
+                <h2>Blitz</h2>
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                <p>Try to get highest score in 2 minutes</p>
+            </div>
+        </div>
+        <div class="new-box">
+            <span class="material-icons icon">info</span>
+            <div class="new-box-content">
+                <h2 class="new-box-header">New Box 2</h2>
+                <p class="new-box-paragraph">Description for the second new box.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="ui.js"></script>
 </body>
 </html>
