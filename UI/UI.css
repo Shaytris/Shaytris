@@ -1,0 +1,240 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Lexend', sans-serif;
+    cursor: url('https://i.imgur.com/XrmEFvl.png'), auto; /* Use your custom cursor image */
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://i.imgur.com/7ukzxnO.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+    transition: filter 0.3s ease-in-out;
+    filter: brightness(50%); /* Adjust this value to darken the image */
+}
+
+
+.center-image {
+    position: absolute;
+    top: 50%;
+    left: 50%; /* Center the logo horizontally initially */
+    transform: translate(-50%, -50%);
+    width: 30%; /* Adjust to the desired size */
+    height: auto;
+    transition: left 0.5s ease-in-out; /* Add transition for smooth movement */
+    cursor: pointer;
+}
+
+.hidden {
+    display: none; /* Ensures elements are initially hidden */
+    opacity: 0; /* Optional: Set opacity to 0 for a smoother transition */
+  }
+  
+
+/* Basic CSS for the initial boxes */
+.box-container {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 100px); /* Adjust as needed */
+    transform: translateY(-50%);
+    z-index: 1;
+    gap: 15px; /* Space between boxes */
+}
+
+.box {
+    width: 380px; /* Adjust width as needed */
+    height: 140px; /* Adjust height as needed */
+    background: #1e1e1e; /* Dark background */
+    border: 1px solid #444; /* Border color */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Shadow */
+    display: flex;
+    align-items: center;
+    padding: 0 20px; /* Padding inside box */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    color: #e0e0e0; /* Text color */
+}
+
+/* Hover effect for original boxes */
+.box:hover {
+    transform: translateY(-5px); /* Lift on hover */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6); /* Enhanced shadow */
+}
+
+/* Box content styling */
+.box-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.icon {
+    font-size: 36px;
+    margin-right: 20px; /* Space between icon and text */
+    color: #e0e0e0; /* Icon color */
+}
+
+.box-header {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #555; /* Bottom border color */
+    transition: border-color 0.3s ease; /* Transition effect */
+}
+
+.box-paragraph {
+    font-size: 16px;
+    margin: 0;
+    padding-top: 6px;
+    border-top: 1px solid #444; /* Top border color */
+    transition: border-color 0.3s ease; /* Transition effect */
+}
+
+/* Hover effects for box content */
+.box:hover .box-header {
+    border-bottom-color: #777;
+}
+
+.box:hover .box-paragraph {
+    border-top-color: #666;
+}
+
+/* Styles for new boxes */
+.new-boxes {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 150px); /* Position as needed */
+    transform: translateY(-50%);
+    z-index: 2;
+    gap: 15px; /* Space between new boxes */
+}
+
+.new-box {
+    width: 380px;
+    height: 140px;
+    background: #2c2c2c; /* Dark background */
+    border: 1px solid #444; /* Subtle border color */
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #e0e0e0;
+}
+
+/* Hover effect for new boxes */
+.new-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Box content styling for new boxes */
+.new-box-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.new-box .icon {
+    font-size: 36px;
+    margin-right: 20px;
+    color: #e0e0e0;
+}
+
+.new-box-header {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #555;
+    transition: border-color 0.3s ease;
+}
+
+.new-box-paragraph {
+    font-size: 16px;
+    margin: 0;
+    padding-top: 6px;
+    border-top: 1px solid #444;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover effects for new box content */
+.new-box:hover .new-box-header {
+    border-bottom-color: #777;
+}
+
+.new-box:hover .new-box-paragraph {
+    border-top-color: #666;
+}
+
+
+.top-bar, .bottom-bar {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.top-bar {
+    top: -50px; /* Start above the viewport */
+    animation: slideInTop 1s forwards;
+}
+
+@keyframes slideInTop {
+    to {
+        top: 0;
+    }
+}
+
+.bottom-bar {
+    bottom: -50px; /* Start below the viewport */
+    animation: slideInBottom 1s forwards;
+}
+
+@keyframes slideInBottom {
+    to {
+        bottom: 0;
+    }
+}
+
+.center-image.moved {
+    left: calc(30% - 50px); /* Move logo to the left */
+}
+
+.box-container.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Example of setting different cursors for specific elements */
+button {
+    cursor: url('https://i.imgur.com/XrmEFvl.png'), auto; /* Custom cursor for buttons */
+}
+
+a {
+    cursor: url('https://i.imgur.com/XrmEFvl.png'), auto; /* Custom cursor for links */
+}
+
+hr {
+    color: black,
+}
